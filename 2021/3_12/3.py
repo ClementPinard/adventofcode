@@ -17,11 +17,11 @@ print(gamma, epsilon, gamma * epsilon)
 
 #Q2
 def get_sequence(df, get_most_frequent=True):
-    seq = ''
     n_candidates = df.shape[1]
     df_filtered = df
+    col = 0
     while(n_candidates > 1):
-        counts = df_filtered[len(seq)].value_counts()
+        counts = df_filtered[col].value_counts()
         if counts[0] == counts[1]:
             most_frequent = 1
         else:
@@ -30,8 +30,8 @@ def get_sequence(df, get_most_frequent=True):
             target = most_frequent
         else:
             target = 1 - most_frequent
-        candidates = df_filtered[len(seq)] == target
-        seq += str(target)
+        candidates = df_filtered[col] == target
+        col += 1
         df_filtered = df_filtered[candidates]
         n_candidates = candidates.sum()
     return ''.join(df_filtered.iloc[0].astype(str))
