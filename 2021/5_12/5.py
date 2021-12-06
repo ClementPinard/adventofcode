@@ -15,7 +15,15 @@ for r in rows:
         visited[xmin:xmax+1, ymin:ymax+1] += 1
     else:
         assert((xmax - xmin) == (ymax - ymin))
-        visited[range(x1, x2, np.sign(x2 - x1)), range(y1, y2, np.sign(y2 - y1))] += 1
+        x_step = np.sign(x2 - x1)
+        y_step = np.sign(y2 - y1)
+        visited[range(x1, x2 + x_step, x_step), range(y1, y2 + y_step, y_step)] += 1
         visited[x2, y2] += 1
+
+import matplotlib.pyplot as plt
+
+plt.imshow(visited)
+plt.colorbar()
+plt.show()
 print((visited >= 2).sum())
         
