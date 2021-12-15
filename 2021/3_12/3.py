@@ -34,8 +34,8 @@ def get_sequence(df, get_most_frequent=True):
         col += 1
         df_filtered = df_filtered[candidates]
         n_candidates = candidates.sum()
-    return ''.join(df_filtered.iloc[0].astype(str))
+    return int(''.join(df_filtered.iloc[0].astype(str)), 2)
     
-ox = int(''.join(get_sequence(df)), 2)
-co2 = int(''.join(get_sequence(df, get_most_frequent=False)), 2)
+ox = get_sequence(df)
+co2 = get_sequence(df, get_most_frequent=False)
 print(ox, co2, ox*co2)
