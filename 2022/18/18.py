@@ -11,6 +11,7 @@ def get_faces(cubes_coords):
             faces += 2 + 2 * (column.diff() > 1).sum()
     return faces
 faces = get_faces(input_data)
+#Q1
 print(faces)
 
 h, w, d = input_data.max()
@@ -43,4 +44,5 @@ dfs(0, 0, 0)
 negative_cubes = pd.DataFrame((volume == 0).nonzero()).T
 negative_faces = get_faces(negative_cubes)
 
+#Q2
 print(faces - negative_faces)
