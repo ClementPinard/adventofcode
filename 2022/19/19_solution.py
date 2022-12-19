@@ -3,7 +3,7 @@ with open("input.txt") as f:
     iput_data = f.read().strip().split("\n")
 
 r = 0
-o = [ ( t - 1 ) * t // 2 for t in range( 24 + 1 ) ]
+o = [ ( t - 1 ) * t // 2 for t in range( 32 + 1 ) ]
 p = [ list( map( int, re.findall( "-?\d+", l ) ) ) for l in iput_data ]
 for n, a, b, c, d, e, f in p:
     m = 0
@@ -38,7 +38,7 @@ for n, a, b, c, d, e, f in p:
             t, w, x, y, z = t - 1, w + i, x + j, y + k, z + l
         m = max( m, z )
     for g in range( 4 ):
-        dfs( 24, g, 1, 0, 0, 0, 0, 0, 0, 0 )
+        dfs( 32, g, 1, 0, 0, 0, 0, 0, 0, 0 )
     r += m * n
     print(m, n)
 print( r )
