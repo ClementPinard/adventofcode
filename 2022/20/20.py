@@ -5,10 +5,10 @@ from tqdm import tqdm, trange
 with open("input.txt") as f:
     input_data = list(map(int, f.read().strip().split()))
 
-Q1 = False
+Q1 = True
 if not Q1:
     key = 811589153
-    input_data = [key*d for d in input_data]
+    input_data = [key * d for d in input_data]
 n = len(input_data)
 indeces = np.arange(n)
 if Q1:
@@ -29,4 +29,12 @@ updated = copy(input_data)
 for j, k in enumerate(indeces):
     updated[k] = input_data[j]
 zero_index = indeces[input_data.index(0)]
-print(sum([updated[(zero_index + 1000) % n], updated[(zero_index + 2000) % n], updated[(zero_index + 3000) % n]]))
+print(
+    sum(
+        [
+            updated[(zero_index + 1000) % n],
+            updated[(zero_index + 2000) % n],
+            updated[(zero_index + 3000) % n],
+        ]
+    )
+)
