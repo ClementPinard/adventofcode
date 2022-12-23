@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-with open("input2.txt") as f:
+with open("input.txt") as f:
     input_data = f.read().strip().split("\n")
 
 
@@ -57,44 +57,20 @@ for i, line in enumerate(input_data):
             elves_coords.append([i, j])
 
 elves_coords = np.array(elves_coords)
-elves_coords2 = np.copy(elves_coords)
 print("\n".join(input_data))
 print(elves_coords)
-
-arange = np.arange(len(elves_coords))
-
-def propose_elf(elves_coords, directions):
-    ortho_directions = directions[[1, 0]]
-    differences = elves_coords - elves_coords[:, None]
-    differences[arange, arange] = 2
-    colinear = differences @ directions
-    ortho = differences @ ortho_directions
-    invalid = ((colinear == 1) & (np.abs(ortho) <= 1))
-    invalid = invalid.any(1)
-    cant_move = invalid.all(1) | ~invalid.any(1)
-    move = np.where(cant_move[:, None], 0, directions.T[invalid.argmin(1)])
-    return elves_coords + move, move.max()
-
-def maybe_move(elves_coords, elves_propositions):
-    differences = elves_propositions - elves_propositions[:, None]
-    differences[arange, arange] = 1
-    same_position = (differences == 0).all(axis=2).any(1)
-    return np.where(same_position[:, None], elves_coords, elves_propositions)
 
 def plot_elves(elves_coords):
     normalized_elves_coords = elves_coords - elves_coords.min(0)
     h, w = normalized_elves_coords.max(0)
     canvas = np.zeros((h + 1, w + 1))
     canvas[normalized_elves_coords[:, 0], normalized_elves_coords[:, 1]] = 2 + np.arange(
-        len(elves)
+        elves_coords.shape[0]
     )
     print((canvas == 0).sum())
     plt.imshow(canvas)
     plt.show()
     
-
-directions = np.array([[-1, 0], [1, 0], [0, -1], [0, 1]]).T
-ortho_directions = directions[[1, 0]]
 
 elves = [Elf(i, c) for i, c in enumerate(elves_coords)]
 step = 0
@@ -109,17 +85,8 @@ while any(can_move := list(e.propose(elves_coords) for e in elves)):
         e.finish_turn()
     elves_coords = np.stack(list(e.position for e in elves))
     if step % 100 == 0:
-        plot_elves(elves_coords)
+        #plot_elves(elves_coords)
+        pass
 
-progress.close()
-plot_elves(elves_coords)
-elves_coords = elves_coords2
-move = True
-progress = tqdm()
-while move:
-    progress.update(1)
-    propositions, move = propose_elf(elves_coords, directions)
-    elves_coords = maybe_move(elves_coords, propositions)
-    directions=directions[:,[1,2,3,0]]
 progress.close()
 plot_elves(elves_coords)
